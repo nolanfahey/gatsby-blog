@@ -62,3 +62,4 @@ typings/
 
 # GatsbyJS build output
 .cache
+public/
