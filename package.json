@@ -2,7 +2,11 @@
   "name": "gatsby-blog",
   "version": "0.1.0",
   "description": "A simple personal website/blog powered by GatsbyJS",
-  "dependencies": {},
+  "dependencies": {
+    "gatsby": "^2.15.3",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
   "devDependencies": {
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.0.1",
@@ -15,6 +19,10 @@
     "prettier": "^1.18.2"
   },
   "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
