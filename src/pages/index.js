@@ -1,3 +1,8 @@
 import React from 'react';
+import CustomHeader from '../component/common/CustomHeader';
 
-export default () => <div>Hello world!</div>;
+const App = () => {
+  return <CustomHeader text="Hello world" />;
+};
+
+export default App;
