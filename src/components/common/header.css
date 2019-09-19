@@ -1,0 +1,11 @@
+header {
+  overflow: hidden;
+}
+
+.header {
+  height: 5.0rem;
+  align-items: center;
+}
+.name-link {
+  font-size: 2.5rem;
+}

@@ -1,0 +1,24 @@
+header {
+  background-color: #181d27;
+}
+
+h1 {
+  color: #E8E8E8;
+}
+
+body {
+  background: rgb(45, 45, 45);
+  background: -moz-linear-gradient(71deg, rgb(45, 45, 45) 39%, rgb(0, 0, 0) 100%);
+  background: -webkit-linear-gradient(71deg, rgb(45, 45, 45) 39%, rgb(0, 0, 0) 100%);
+  background: -o-linear-gradient(71deg, rgb(45, 45, 45) 39%, rgb(0, 0, 0) 100%);
+  background: -ms-linear-gradient(71deg, rgb(45, 45, 45) 39%, rgb(0, 0, 0) 100%);
+  background: linear-gradient(161deg, rgb(45, 45, 45) 39%, rgb(0, 0, 0) 100%);
+}
+
+.flexcontainer {
+  display: flex;
+}
+
+.flexrow {
+  flex-direction: row;
+}

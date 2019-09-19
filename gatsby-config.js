@@ -7,7 +7,7 @@
 module.exports = {
   siteMetadata: {
     title: `Nolan Fahey`,
-    description: `Nolan Fahey's personal website and blog`,
+    description: `Nolan Fahey's personal website and blog. Built with GatsbyJS and served by Netlify`,
     author: `Nolan Fahey`,
   },
   plugins: [
