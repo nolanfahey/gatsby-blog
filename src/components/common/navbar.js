@@ -1,22 +1,31 @@
 import React from 'react';
-import './navbar.styl';
+import { Link } from 'gatsby';
+
+// CSS stylus file
+import './css/navbar.styl';
 
 export const Navbar = () => (
   <>
     <nav className="navbar flex-row">
-      <a className="navbar-link name-link navbar-item" href="#">
-        <h1>nolan fahey</h1>
-      </a>
-      <div className="flex-row icon-set">
-        <a className="icon-link" href="a">
-          a
-        </a>
-        <a className="icon-link" href="b">
-          b
-        </a>
-        <a className="icon-link" href="c">
-          c
-        </a>
+      <div className="name-link" href="#">
+        <Link to="/">nolan fahey</Link>
+      </div>
+
+      <div className="flex-row link-set">
+        <div className="nav-link">
+          <Link to="/blog/">blog</Link>
+          <div className="blog-bottom bottom-bar" />
+        </div>
+
+        <div className="nav-link">
+          <Link to="/about/">about</Link>
+          <div className="about-bottom bottom-bar" />
+        </div>
+
+        <div className="nav-link">
+          <Link to="/contact/">contact</Link>
+          <div className="contact-bottom bottom-bar" />
+        </div>
       </div>
     </nav>
   </>

@@ -1,0 +1,41 @@
+@import './colors.styl'
+
+.bottom-bar
+  width: 100%
+  background-color: white
+  height: 0
+  transition: 0.1s
+
+.navbar
+  font-family:'Roboto Mono', monospace
+  height: inherit
+  justify-content: space-between
+  margin-right: 1.0rem
+
+.name-link
+  margin-left: 1.0rem
+  font-size: 1.0rem
+
+.icon-fill
+  fill: $WHITE
+
+.nav-link
+  font-size: 0.75rem
+  height: inherit
+  width: 5.0rem
+  margin: 0 0.5rem
+
+.nav-link:hover .bottom-bar
+  height: 0.125rem
+
+.nav-link .about-bottom
+  background-color: $YELLOW
+
+.nav-link .blog-bottom
+  background-color: $BLUE
+
+.nav-link .contact-bottom
+  background-color: $RED
+
+.link-set
+  align-items: center

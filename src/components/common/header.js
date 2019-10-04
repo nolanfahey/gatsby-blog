@@ -6,16 +6,16 @@ import React from 'react';
 import { Navbar } from './navbar';
 
 // CSS modules
-import styles from './header.module.styl';
+import styles from './css/header.module.styl';
 
 const Header = () => (
   <>
     <header>
       <div className={styles.header}>
-        <Navbar></Navbar>
+        <Navbar />
       </div>
     </header>
-    <div className={styles.bandGradient} />
+    <div className={styles.border} />
   </>
 );
 
