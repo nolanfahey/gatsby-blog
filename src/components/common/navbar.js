@@ -7,7 +7,7 @@ import './css/navbar.styl';
 export const Navbar = () => (
   <>
     <nav className="navbar flex-row">
-      <div className="name-link" href="#">
+      <div className="name-link">
         <Link to="/">nolan fahey</Link>
       </div>
 
