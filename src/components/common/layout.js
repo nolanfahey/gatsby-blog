@@ -10,8 +10,7 @@ import PropTypes from 'prop-types';
 import { useStaticQuery, graphql } from 'gatsby';
 
 import Header from './header';
-import './layout.css';
-import './style.css';
+import './css/style.styl';
 import 'normalize.css';
 
 const Layout = ({ children }) => {
@@ -27,7 +26,11 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <Header siteTitle={data.site.siteMetadata.title} />
+      <link
+        href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono&display=swap"
+        rel="stylesheet"
+      />
+      <Header />
       <main>{children}</main>
     </>
   );

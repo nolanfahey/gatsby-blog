@@ -2,18 +2,21 @@ import { Link } from 'gatsby';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+// React component imports
 import { Navbar } from './navbar';
 
-import './header.css';
+// CSS modules
+import styles from './header.module.styl';
 
-const Header = ({ siteTitle }) => (
-  <header>
-    <div class="header flexcontainer flexrow">
-      <div class="name-link">
-        <a href="#">{siteTitle}</a>
+const Header = () => (
+  <>
+    <header>
+      <div className={styles.header}>
+        <Navbar></Navbar>
       </div>
-    </div>
-  </header>
+    </header>
+    <div className={styles.bandGradient} />
+  </>
 );
 
 Header.propTypes = {

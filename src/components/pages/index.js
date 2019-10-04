@@ -8,7 +8,10 @@ import SEO from '../common/seo';
 const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
-    <h1>SUB HEADING</h1>
+    <h1>
+      A B C Č Ć D Đ E F G H I J K L M N O P Q R S Š T U V W X Y Z Ž a b c č ć d đ e f g h i j k l m
+      n o p q r s š t u v w x y z ž А Б В Г Ґ Д Ђ Е Ё Є
+    </h1>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
       labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
