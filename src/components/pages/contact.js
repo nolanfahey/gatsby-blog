@@ -6,7 +6,7 @@ import Content from '../common/content';
 
 const ContactPage = () => (
   <Layout>
-    <SEO title="Contact | Nolan Fahey" />
+    <SEO title="Contact" />
     <Content></Content>
   </Layout>
 );

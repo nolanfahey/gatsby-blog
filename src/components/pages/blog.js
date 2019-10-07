@@ -6,7 +6,7 @@ import Content from '../common/content';
 
 const BlogPage = () => (
   <Layout>
-    <SEO title="Blog | Nolan Fahey" />
+    <SEO title="Blog" />
     <Content></Content>
   </Layout>
 );

@@ -8,7 +8,7 @@ import Content from '../common/content';
 
 const IndexPage = () => (
   <Layout>
-    <SEO title="Home | Nolan Fahey" />
+    <SEO title="Home" />
     <Content>
       <h2>Hello,</h2>
       <h1></h1>
