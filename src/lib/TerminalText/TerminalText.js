@@ -52,7 +52,9 @@ const TerminalText = (options, callback) => {
   this.position = this.string.length - 1;
 
   this.animate = () => {
-    while (this.instructionQueue.length > 0) {}
+    while (this.instructionQueue.length > 0) {
+      
+    }
   };
 };
 
