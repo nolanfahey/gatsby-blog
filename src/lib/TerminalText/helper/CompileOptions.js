@@ -1,3 +1,4 @@
+// compile options from defaults and options (where options overide defaults)
 const compileOptions = (defaults, options) => {
   const result = { ...defaults };
   const settings = Object.getOwnPropertyNames(options);

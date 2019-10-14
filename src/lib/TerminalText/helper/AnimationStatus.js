@@ -11,4 +11,6 @@ const animationStatus = {
   },
 };
 
-export default animationStatus;
+module.exports = {
+  animationStatus,
+};
