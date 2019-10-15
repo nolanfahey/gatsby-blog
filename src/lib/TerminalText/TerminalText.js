@@ -1,10 +1,16 @@
 import { compileOptions } from './helper/CompileOptions';
-import { animationStatus } from './helper/AnimationStatus';
 import { isElement } from './helper/IsElement';
+
+import { animationStatus } from './helper/AnimationStatus';
+import { commands } from './helper/Commands';
+
+import { Queue } from './helper/Queue';
 
 // Default configuration
 const defaultSettings = {
   targetElement: null,
+  keypresses: [],
+  interactionEnabled: false,
   inputText: '', // starting text
   typingInterval: 150, // milliseconds
   blinkInterval: 500, // milliseconds
@@ -22,11 +28,7 @@ const validateConfig = settings => {
   }
 
   // Check presence/type of required settings
-  if (!settings.inputText) {
-    throw new Error('Missing required argument: inputText');
-  }
-
-  if (typeof settings.inputText !== 'string') {
+  if (settings.inputText && typeof settings.inputText !== 'string') {
     throw new Error(`Invalid argument type: ${settings.inputText} is not a string`);
   }
 
@@ -44,20 +46,143 @@ const validateConfig = settings => {
 
   return settings;
 };
-const TerminalText = (options, callback) => {
-  this.settings = validateConfig(compileOptions(defaultSettings, options));
-  this.status = animationStatus.STOPPED;
-  this.instructionQueue = [];
-  this.string = this.settings.inputText;
-  this.position = this.string.length - 1;
 
-  this.animate = () => {
-    while (this.instructionQueue.length > 0) {
-      
+const createKeypress = keyOrCode => {
+  if (Number.isInteger(keyOrCode)) {
+    return { key: '', keyCode: keyOrCode };
+  }
+
+  return { key: keyOrCode, keyCode: -1 };
+};
+
+const createInstruction = keypress => {
+  const ARROW_LEFT = 37;
+  const ARROW_RIGHT = 39;
+  const BACKSPACE = 8;
+  const DELETE = 46;
+
+  switch (keypress.keyCode) {
+    case ARROW_LEFT:
+      return { command: commands.LEFT };
+    case ARROW_RIGHT:
+      return { command: commands.RIGHT };
+    case BACKSPACE:
+      return { command: commands.BACKSPACE };
+    case DELETE:
+      return { command: commands.DELETE };
+    default:
+      break;
+  }
+
+  if (keypress.key.length !== 1) {
+    return null;
+  }
+
+  return { command: commands.CHARACTER, character: keypress.key };
+};
+
+class TerminalText {
+  constructor(options) {
+    const compiledOptions = compileOptions(defaultSettings, options);
+    console.log(compiledOptions);
+
+    this.settings = validateConfig(compiledOptions);
+    this.status = animationStatus.STOPPED;
+    this.instructionQueue = Queue();
+    this.string = `${this.settings.inputText} `;
+    this.position = this.string.length - 1;
+
+    if (this.settings.interactionEnabled) {
+      this.settings.targetElement.addEventListener('keydown', createInstruction);
     }
-  };
-};
 
-module.exports = {
-  TerminalText,
-};
+    this.settings.keypresses.forEach(element => {
+      this.instructionQueue.enqueue(createInstruction(createKeypress(element)));
+    });
+
+    this.animate();
+  }
+
+  moveCursor(command) {
+    switch (command) {
+      case commands.LEFT:
+        if (!this.position === 0) {
+          this.position -= 1;
+        }
+        break;
+      case commands.RIGHT:
+        if (!(this.postion + 1 < this.string.length - 2)) {
+          this.position += 1;
+        }
+        break;
+      default:
+    }
+  }
+
+  insert(character) {
+    this.string =
+      this.string.slice(0, this.position) + character + this.string.slice(this.position);
+    this.position += 1;
+  }
+
+  delete() {
+    if (this.position > this.string.length - 2) {
+      return;
+    }
+
+    this.string = this.string.slice(0, this.position) + this.string.slice(this.position + 1);
+  }
+
+  backspace() {
+    if (this.position > this.string.length - 2 || !this.position) {
+      return;
+    }
+
+    this.string = this.string.slice(0, this.position - 1) + this.string.slice(this.position - 1);
+  }
+
+  updateElement() {
+    this.settings.targetElement.innerHTML = this.string;
+  }
+
+  processInstruction(instruction) {
+    switch (instruction.command) {
+      case commands.CHARACTER:
+        this.insert(instruction.character);
+        this.updateElement();
+        break;
+      case commands.LEFT:
+      case commands.RIGHT:
+        this.moveCursor(instruction.command);
+        break;
+      case commands.DELETE:
+        this.delete();
+        this.updateElement();
+        break;
+      case commands.BACKSPACE:
+        this.backspace();
+        this.updateElement();
+        break;
+      default:
+    }
+  }
+
+  animate() {
+    this.status = animationStatus.ANIMATING;
+
+    while (!this.instructionQueue.isEmpty()) {
+      setTimeout(
+        this.processInstruction(this.instructionQueue.dequeue()),
+        this.settings.typingInterval
+      );
+    }
+
+    this.status = animationStatus.STOPPED;
+  }
+
+  complete() {
+    this.status = animationStatus.COMPLETED;
+  }
+}
+
+export default TerminalText;

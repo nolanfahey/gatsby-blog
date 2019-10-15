@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'gatsby';
 
+import { TerminalModule } from '../TerminalModule/terminalModule';
+
 // CSS stylus file
 import './css/navbar.styl';
 
@@ -8,7 +10,9 @@ export const Navbar = () => (
   <>
     <nav className="navbar flex-row">
       <div className="name-link">
-        <Link to="/">nolan fahey</Link>
+        <Link to="/">
+          <TerminalModule startingText="" />
+        </Link>
       </div>
 
       <div className="flex-row link-set">
