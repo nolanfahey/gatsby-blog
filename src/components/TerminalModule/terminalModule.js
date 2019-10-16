@@ -6,18 +6,16 @@ import TerminalText from '../../lib/TerminalText/TerminalText';
 
 export const TerminalModule = ({ startingText }) => {
   const textElement = React.createRef();
-
-  useEffect(() => {
-    const terminal = TerminalText({
-      targetElement: textElement.current,
-      keypresses: 'nolan fahey'.split(''),
-      inputText: startingText || '',
-    });
-
-    terminal.animate();
+  const terminal = new TerminalText({
+    keypresses: 'nolan fahey'.split(''),
+    inputText: startingText || '',
   });
 
-  return <span ref={textElement}></span>;
+  useEffect(() => {
+    terminal.setTargetElement(textElement.current);
+  });
+
+  return <span ref={textElement} onMouseOver={() => terminal.animate()}></span>;
 };
 
 TerminalModule.propTypes = {

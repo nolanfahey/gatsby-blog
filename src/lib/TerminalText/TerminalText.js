@@ -23,7 +23,7 @@ const validateConfig = settings => {
     throw new Error(`Invalid argument ${settings}`);
   }
 
-  if (!settings.targetElement || !isElement(settings.targetElement)) {
+  if (settings.targetElement && !isElement(settings.targetElement)) {
     throw new Error(`Invalid required argument targetElement: ${settings.targetElement}`);
   }
 
@@ -83,24 +83,23 @@ const createInstruction = keypress => {
 
 class TerminalText {
   constructor(options) {
-    const compiledOptions = compileOptions(defaultSettings, options);
-    console.log(compiledOptions);
-
-    this.settings = validateConfig(compiledOptions);
+    this.settings = validateConfig(compileOptions(defaultSettings, options));
+    this.targetElement = this.settings.targetElement;
+    this.elementIsSet = Boolean(this.targetElement);
     this.status = animationStatus.STOPPED;
-    this.instructionQueue = Queue();
+    this.instructionQueue = new Queue();
     this.string = `${this.settings.inputText} `;
     this.position = this.string.length - 1;
 
-    if (this.settings.interactionEnabled) {
-      this.settings.targetElement.addEventListener('keydown', createInstruction);
+    this.time = 0;
+
+    if (this.settings.interactionEnabled && this.elementIsSet) {
+      this.targetElement.addEventListener('keydown', createInstruction);
     }
 
-    this.settings.keypresses.forEach(element => {
-      this.instructionQueue.enqueue(createInstruction(createKeypress(element)));
-    });
-
-    this.animate();
+    for (let i = 0; i < this.settings.keypresses.length; i += 1) {
+      this.instructionQueue.enqueue(createInstruction(createKeypress(this.settings.keypresses[i])));
+    }
   }
 
   moveCursor(command) {
@@ -141,8 +140,14 @@ class TerminalText {
     this.string = this.string.slice(0, this.position - 1) + this.string.slice(this.position - 1);
   }
 
+  setTargetElement(element) {
+    this.targetElement = element;
+    this.elementIsSet = true;
+    this.updateElement();
+  }
+
   updateElement() {
-    this.settings.targetElement.innerHTML = this.string;
+    this.targetElement.innerHTML = this.string;
   }
 
   processInstruction(instruction) {
@@ -168,16 +173,18 @@ class TerminalText {
   }
 
   animate() {
-    this.status = animationStatus.ANIMATING;
-
-    while (!this.instructionQueue.isEmpty()) {
-      setTimeout(
-        this.processInstruction(this.instructionQueue.dequeue()),
-        this.settings.typingInterval
-      );
+    if (!this.elementIsSet || this.status === animationStatus.COMPLETED) {
+      return;
     }
 
-    this.status = animationStatus.STOPPED;
+    if (this.instructionQueue.isEmpty()) {
+      this.status = animationStatus.STOPPED;
+      return;
+    }
+
+    this.status = animationStatus.ANIMATING;
+    this.processInstruction(this.instructionQueue.dequeue());
+    setTimeout(this.animate.bind(this), this.settings.typingInterval);
   }
 
   complete() {

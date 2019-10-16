@@ -11,7 +11,7 @@ export const Navbar = () => (
     <nav className="navbar flex-row">
       <div className="name-link">
         <Link to="/">
-          <TerminalModule startingText="" />
+          <TerminalModule startingText="nf" />
         </Link>
       </div>
 
