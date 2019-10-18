@@ -6,12 +6,15 @@ import { TerminalModule } from '../TerminalModule/terminalModule';
 // CSS stylus file
 import './css/navbar.styl';
 
+let presses = 'nolan fahey'.split('');
+
+
 export const Navbar = () => (
   <>
     <nav className="navbar flex-row">
       <div className="name-link">
         <Link to="/">
-          <TerminalModule startingText="nf" />
+          <TerminalModule keypresses={'nolan fahey'.split('')} />
         </Link>
       </div>
 

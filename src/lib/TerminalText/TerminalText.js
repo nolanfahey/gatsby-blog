@@ -1,23 +1,24 @@
-import { compileOptions } from './helper/CompileOptions';
-import { isElement } from './helper/IsElement';
+import compileOptions from './helper/func/CompileOptions';
+import isElement from './helper/func/IsElement';
 
-import { animationStatus } from './helper/AnimationStatus';
-import { commands } from './helper/Commands';
+import animationStatus from './helper/enum/AnimationStatus';
+import commands from './helper/enum/Commands';
 
-import { Queue } from './helper/Queue';
+import Queue from './helper/class/Queue';
+import Cursor from './helper/class/Cursor';
 
 // Default configuration
 const defaultSettings = {
   targetElement: null,
+  cursorElement: null,
   keypresses: [],
   interactionEnabled: false,
   inputText: '', // starting text
-  typingInterval: 150, // milliseconds
+  typingInterval: 120, // milliseconds
   blinkInterval: 500, // milliseconds
   pluginCallback: () => {},
 };
 
-// TODO: inherit cursor size, color from parent element size (text span? )
 const validateConfig = settings => {
   if (!settings || typeof settings !== 'object') {
     throw new Error(`Invalid argument ${settings}`);
@@ -86,14 +87,15 @@ class TerminalText {
     this.settings = validateConfig(compileOptions(defaultSettings, options));
     this.targetElement = this.settings.targetElement;
     this.elementIsSet = Boolean(this.targetElement);
+
     this.status = animationStatus.STOPPED;
     this.instructionQueue = new Queue();
     this.string = `${this.settings.inputText} `;
     this.position = this.string.length - 1;
-
-    this.time = 0;
+    this.cursor = new Cursor(this.settings.cursorElement);
 
     if (this.settings.interactionEnabled && this.elementIsSet) {
+      this.attachCursor();
       this.targetElement.addEventListener('keydown', createInstruction);
     }
 
@@ -143,11 +145,21 @@ class TerminalText {
   setTargetElement(element) {
     this.targetElement = element;
     this.elementIsSet = true;
+    this.attachCursor();
     this.updateElement();
   }
 
+  setCursor(cursor) {
+    this.cursor = cursor;
+    this.attachCursor();
+  }
+
+  attachCursor() {
+    this.targetElement.parentElement.appendChild(this.cursor.getElement());
+  }
+
   updateElement() {
-    this.targetElement.innerHTML = this.string;
+    this.targetElement.textContent = this.string;
   }
 
   processInstruction(instruction) {

@@ -4,18 +4,28 @@ import PropTypes from 'prop-types';
 
 import TerminalText from '../../lib/TerminalText/TerminalText';
 
-export const TerminalModule = ({ startingText }) => {
+export const TerminalModule = ({ startingText, keypresses }) => {
   const textElement = React.createRef();
+  const cursor = React.createRef();
+
   const terminal = new TerminalText({
-    keypresses: 'nolan fahey'.split(''),
+    keypresses: keypresses,
     inputText: startingText || '',
   });
 
+  console.log(keypresses);
+
   useEffect(() => {
     terminal.setTargetElement(textElement.current);
+    terminal.animate();
   });
 
-  return <span ref={textElement} onMouseOver={() => terminal.animate()}></span>;
+  return (
+    <div>
+      <span ref={textElement}></span>
+      <div ref={cursor}></div>
+    </div>
+  );
 };
 
 TerminalModule.propTypes = {

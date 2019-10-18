@@ -11,6 +11,4 @@ const animationStatus = {
   },
 };
 
-module.exports = {
-  animationStatus,
-};
+export default animationStatus;

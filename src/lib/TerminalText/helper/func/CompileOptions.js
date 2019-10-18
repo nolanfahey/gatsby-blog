@@ -9,6 +9,4 @@ const compileOptions = (defaults, options) => {
   return result;
 };
 
-module.exports = {
-  compileOptions,
-};
+export default compileOptions;
