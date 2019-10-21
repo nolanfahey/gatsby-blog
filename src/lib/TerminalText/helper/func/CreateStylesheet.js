@@ -1,4 +1,4 @@
-function createStylesheet(path) {
+function createStylesheetLink(path) {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.type = 'text/css';
@@ -7,4 +7,4 @@ function createStylesheet(path) {
   return link;
 }
 
-export default createStylesheet;
+export default createStylesheetLink;

@@ -12,6 +12,7 @@ export const TerminalModule = ({ startingText, keypresses }) => {
     inputText: startingText || '',
   });
 
+
   useEffect(() => {
     terminal.setTargetElement(textElement.current);
     terminal.animate();

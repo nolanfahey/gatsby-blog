@@ -1,13 +1,9 @@
 import isElement from '../func/IsElement';
-import injectStylesheet from '../func/InjectStylesheet';
-import createStylesheet from '../func/CreateStylesheet';
+import getTextDimensions from '../func/GetTextDimensions';
 
 class Cursor {
   constructor(element) {
     this.element = isElement(element) ? element : document.createElement('div');
-
-    const stylesheet = createStylesheet('../../css/cursor.css');
-    injectStylesheet(stylesheet);
 
     this.getElement = () => {
       return this.element;
@@ -15,6 +11,10 @@ class Cursor {
 
     this.attach = parent => {
       parent.appendChild(this.element);
+    };
+
+    this.styleCursor = () => {
+      this.element.style.width = '10px';
     };
   }
 }
