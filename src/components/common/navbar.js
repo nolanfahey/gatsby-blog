@@ -8,7 +8,6 @@ import './css/navbar.styl';
 
 let presses = 'nolan fahey'.split('');
 
-
 export const Navbar = () => (
   <>
     <nav className="navbar flex-row">
